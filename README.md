@@ -1,4 +1,4 @@
-# SocialiteClone
+# Block Short Form Content
 
 An iOS app (SwiftUI) that lets you use Instagram and YouTube without Reels and Shorts.
 It works like SocialLite: each platform runs as its **website** inside the app (WKWebView).
