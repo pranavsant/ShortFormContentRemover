@@ -12,15 +12,15 @@ enum ContentScript {
     }
 
     static func source(config: BlockConfig) -> String {
-        "window.__SL_CONFIG = \(json(config));\n" + core
+        "window.__SFR_CONFIG = \(json(config));\n" + core
     }
 
     static let core = #"""
 (function () {
   'use strict';
-  if (window.__SL_apply) { window.__SL_apply(window.__SL_CONFIG || {}); return; }
+  if (window.__SFR_apply) { window.__SFR_apply(window.__SFR_CONFIG || {}); return; }
 
-  var cfg = window.__SL_CONFIG || {};
+  var cfg = window.__SFR_CONFIG || {};
   var host = location.hostname;
   var site = /(^|\.)instagram\.com$/.test(host) ? 'ig'
            : /(^|\.)youtube\.com$/.test(host) ? 'yt'
@@ -34,9 +34,9 @@ enum ContentScript {
   // Marked by markVideoPosts() rather than matched live with :has(video).
   // Instagram removes the <video> from posts that aren't visible, so a live
   // :has(video) rule would hide -> unhide -> hide in a loop (flicker).
-  var IG_VIDEO_POSTS = 'main article[data-sl-video]';
-  var IG_EXPLORE_GRID = 'html.sl-explore main a[href^="/p/"], html.sl-explore main a[href^="/reel/"]';
-  var IG_HOME_FEED = 'html.sl-home main article';
+  var IG_VIDEO_POSTS = 'main article[data-sfr-video]';
+  var IG_EXPLORE_GRID = 'html.sfr-explore main a[href^="/p/"], html.sfr-explore main a[href^="/reel/"]';
+  var IG_HOME_FEED = 'html.sfr-home main article';
 
   // ---- YouTube (m.youtube.com, plus desktop equivalents) ----
   var YT_SHORTS = [
@@ -59,9 +59,9 @@ enum ContentScript {
     'ytd-mini-guide-entry-renderer:has(a[title="Shorts"])'
   ].join(',\n');
   var YT_HOME_FEED = [
-    'html.sl-home ytm-browse ytm-rich-grid-renderer',
-    'html.sl-home ytm-browse ytm-section-list-renderer',
-    'html.sl-home ytd-browse[page-subtype="home"] #primary'
+    'html.sfr-home ytm-browse ytm-rich-grid-renderer',
+    'html.sfr-home ytm-browse ytm-section-list-renderer',
+    'html.sfr-home ytd-browse[page-subtype="home"] #primary'
   ].join(',\n');
 
   // One rule per selector: if WebKit rejects one selector, only that rule is dropped.
@@ -70,7 +70,7 @@ enum ContentScript {
   function buildCSS() {
     var r = [];
     if (site === 'ig') {
-      r.push('[data-sl-banner]' + HIDE);
+      r.push('[data-sfr-banner]' + HIDE);
       if (cfg.igBlockReelsFeed) { r.push(IG_REELS_NAV + HIDE); }
       if (cfg.igHideVideoPosts) { r.push(IG_VIDEO_POSTS + HIDE); }
       if (cfg.igHideExploreGrid) { r.push(IG_EXPLORE_GRID + HIDE); }
@@ -87,17 +87,17 @@ enum ContentScript {
     var el = document.documentElement;
     if (!el) { return; }
     var p = location.pathname;
-    el.classList.toggle('sl-home', p === '/');
-    el.classList.toggle('sl-explore', site === 'ig' && /^\/explore\/?$/.test(p));
+    el.classList.toggle('sfr-home', p === '/');
+    el.classList.toggle('sfr-explore', site === 'ig' && /^\/explore\/?$/.test(p));
   }
 
   function ensureStyle() {
     var parent = document.head || document.documentElement;
     if (!parent) { return; }
-    var style = document.getElementById('sl-style');
+    var style = document.getElementById('sfr-style');
     if (!style) {
       style = document.createElement('style');
-      style.id = 'sl-style';
+      style.id = 'sfr-style';
       parent.appendChild(style);
     }
     var css = buildCSS();
@@ -108,10 +108,10 @@ enum ContentScript {
   // for that element, so the post stays hidden when Instagram unloads the video.
   function markVideoPosts() {
     if (site !== 'ig') { return; }
-    var videos = document.querySelectorAll('main article:not([data-sl-video]) video');
+    var videos = document.querySelectorAll('main article:not([data-sfr-video]) video');
     for (var i = 0; i < videos.length; i++) {
       var post = videos[i].closest('article');
-      if (post) { post.setAttribute('data-sl-video', ''); }
+      if (post) { post.setAttribute('data-sfr-video', ''); }
     }
   }
 
@@ -128,7 +128,7 @@ enum ContentScript {
       for (var node = el, depth = 0; node && node !== document.body && depth < 10; node = node.parentElement, depth++) {
         var pos = getComputedStyle(node).position;
         if (pos === 'fixed' || pos === 'sticky') {
-          node.setAttribute('data-sl-banner', '');
+          node.setAttribute('data-sfr-banner', '');
           break;
         }
       }
@@ -137,7 +137,7 @@ enum ContentScript {
 
   function tick() { updateClasses(); ensureStyle(); markVideoPosts(); hideAppBanners(); }
 
-  window.__SL_apply = function (newCfg) { cfg = newCfg || {}; tick(); };
+  window.__SFR_apply = function (newCfg) { cfg = newCfg || {}; tick(); };
 
   tick();
   document.addEventListener('DOMContentLoaded', tick);

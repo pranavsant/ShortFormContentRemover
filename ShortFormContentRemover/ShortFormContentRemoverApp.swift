@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct SocialiteCloneApp: App {
+struct ShortFormContentRemoverApp: App {
     @StateObject private var settings = SettingsStore()
 
     var body: some Scene {

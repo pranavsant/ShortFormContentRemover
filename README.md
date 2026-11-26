@@ -1,13 +1,13 @@
 # Block Short Form Content
 
 An iOS app (SwiftUI) that lets you use Instagram and YouTube without Reels and Shorts.
-It works like SocialLite: each platform runs as its **website** inside the app (WKWebView).
+Each platform runs as its **website** inside the app (WKWebView), full screen, so it looks like the real app.
 A script injected into every page hides short-form content, and the app catches navigations
 to blocked URLs and redirects them.
 
 ## Run it
-1. Open `SocialiteClone.xcodeproj` in Xcode 16 or later.
-2. Select the **SocialiteClone** target > Signing & Capabilities > pick your Team.
+1. Open `ShortFormContentRemover.xcodeproj` in Xcode 16 or later.
+2. Select the **ShortFormContentRemover** target > Signing & Capabilities > pick your Team.
 3. Run on a simulator or an iPhone (iOS 17+).
 
 ## How blocking works

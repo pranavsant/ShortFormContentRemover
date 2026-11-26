@@ -69,7 +69,7 @@ struct FloatingMenuButton: View {
                             yFraction = Double((y + value.translation.height) / geo.size.height)
                         }
                 )
-                .accessibilityLabel("SocialiteClone menu")
+                .accessibilityLabel("ShortForm Remover menu")
                 .accessibilityAddTraits(.isButton)
         }
     }
@@ -127,7 +127,7 @@ struct MenuSheet: View {
                     }
                 }
             }
-            .navigationTitle("SocialiteClone")
+            .navigationTitle("ShortForm Remover")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

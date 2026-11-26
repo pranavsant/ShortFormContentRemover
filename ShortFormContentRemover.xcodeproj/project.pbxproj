@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		5C0A00000000000000000001 /* SocialiteClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialiteClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C0A00000000000000000001 /* ShortFormContentRemover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShortFormContentRemover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5C0A00000000000000000002 /* SocialiteClone */ = {
+		5C0A00000000000000000002 /* ShortFormContentRemover */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SocialiteClone;
+			path = ShortFormContentRemover;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		5C0A00000000000000000004 = {
 			isa = PBXGroup;
 			children = (
-				5C0A00000000000000000002 /* SocialiteClone */,
+				5C0A00000000000000000002 /* ShortFormContentRemover */,
 				5C0A00000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		5C0A00000000000000000005 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5C0A00000000000000000001 /* SocialiteClone.app */,
+				5C0A00000000000000000001 /* ShortFormContentRemover.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5C0A00000000000000000006 /* SocialiteClone */ = {
+		5C0A00000000000000000006 /* ShortFormContentRemover */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C0A0000000000000000000A /* Build configuration list for PBXNativeTarget "SocialiteClone" */;
+			buildConfigurationList = 5C0A0000000000000000000A /* Build configuration list for PBXNativeTarget "ShortFormContentRemover" */;
 			buildPhases = (
 				5C0A00000000000000000007 /* Sources */,
 				5C0A00000000000000000003 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5C0A00000000000000000002 /* SocialiteClone */,
+				5C0A00000000000000000002 /* ShortFormContentRemover */,
 			);
-			name = SocialiteClone;
+			name = ShortFormContentRemover;
 			packageProductDependencies = (
 			);
-			productName = SocialiteClone;
-			productReference = 5C0A00000000000000000001 /* SocialiteClone.app */;
+			productName = ShortFormContentRemover;
+			productReference = 5C0A00000000000000000001 /* ShortFormContentRemover.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5C0A0000000000000000000B /* Build configuration list for PBXProject "SocialiteClone" */;
+			buildConfigurationList = 5C0A0000000000000000000B /* Build configuration list for PBXProject "ShortFormContentRemover" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5C0A00000000000000000006 /* SocialiteClone */,
+				5C0A00000000000000000006 /* ShortFormContentRemover */,
 			);
 		};
 /* End PBXProject section */
@@ -195,7 +195,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SocialiteClone;
+				INFOPLIST_KEY_CFBundleDisplayName = "ShortForm Remover";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -206,7 +206,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pranav.SocialiteClone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pranav.ShortFormContentRemover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -223,7 +223,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SocialiteClone;
+				INFOPLIST_KEY_CFBundleDisplayName = "ShortForm Remover";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -234,7 +234,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.pranav.SocialiteClone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pranav.ShortFormContentRemover;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -245,7 +245,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5C0A0000000000000000000A /* Build configuration list for PBXNativeTarget "SocialiteClone" */ = {
+		5C0A0000000000000000000A /* Build configuration list for PBXNativeTarget "ShortFormContentRemover" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0A0000000000000000000E /* Debug */,
@@ -254,7 +254,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5C0A0000000000000000000B /* Build configuration list for PBXProject "SocialiteClone" */ = {
+		5C0A0000000000000000000B /* Build configuration list for PBXProject "ShortFormContentRemover" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0A0000000000000000000C /* Debug */,

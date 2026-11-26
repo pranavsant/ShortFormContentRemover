@@ -1,6 +1,6 @@
 import Foundation
 
-/// A social platform that SocialiteClone wraps in its own web view.
+/// A social platform that the app wraps in its own web view.
 /// To add a platform: add a case here, then add CSS rules in ContentScript
 /// and URL rules in RedirectPolicy.
 enum Platform: String, CaseIterable, Identifiable {

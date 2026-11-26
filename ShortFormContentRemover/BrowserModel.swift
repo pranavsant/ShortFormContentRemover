@@ -83,7 +83,7 @@ final class BrowserModel: NSObject, ObservableObject {
     func apply(_ newConfig: BlockConfig) {
         config = newConfig
         installScript()   // for future page loads
-        webView.evaluateJavaScript("window.__SL_apply && window.__SL_apply(\(ContentScript.json(newConfig)))")
+        webView.evaluateJavaScript("window.__SFR_apply && window.__SFR_apply(\(ContentScript.json(newConfig)))")
         check(webView.url)
     }
 
@@ -111,7 +111,7 @@ final class BrowserModel: NSObject, ObservableObject {
 
     private func log(_ message: String) {
         #if DEBUG
-        print("[SL \(platform.rawValue)] \(message)")
+        print("[SFR \(platform.rawValue)] \(message)")
         #endif
     }
 
