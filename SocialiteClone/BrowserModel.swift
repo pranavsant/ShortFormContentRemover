@@ -96,10 +96,18 @@ final class BrowserModel: NSObject, ObservableObject {
 
     /// Catches in-page navigations (pushState) that never hit decidePolicyFor.
     private func check(_ url: URL?) {
+        log("url \(url?.absoluteString ?? "nil")")
         guard let redirect = RedirectPolicy.redirect(for: url, config: config) else { return }
+        log("redirect -> \(redirect.url.absoluteString) (\(redirect.message))")
         webView.stopLoading()
         webView.load(URLRequest(url: redirect.url))
         showToast(redirect.message)
+    }
+
+    private func log(_ message: String) {
+        #if DEBUG
+        print("[SL \(platform.rawValue)] \(message)")
+        #endif
     }
 
     private func showToast(_ text: String) {
@@ -119,7 +127,10 @@ extension BrowserModel: WKNavigationDelegate {
 
         // Never hand off to the native apps (instagram://, youtube://, intent:// ...).
         let scheme = url.scheme?.lowercased() ?? ""
-        guard ["http", "https", "about", "blob", "data"].contains(scheme) else { return .cancel }
+        guard ["http", "https", "about", "blob", "data"].contains(scheme) else {
+            log("blocked app link \(url.absoluteString)")
+            return .cancel
+        }
 
         let isMainFrame = navigationAction.targetFrame?.isMainFrame ?? true
         if isMainFrame, let redirect = RedirectPolicy.redirect(for: url, config: config) {
@@ -128,6 +139,21 @@ extension BrowserModel: WKNavigationDelegate {
             return .cancel
         }
         return .allow
+    }
+
+    /// The page's web process can be killed (memory pressure, crash). WebKit then
+    /// leaves a blank view forever unless we reload.
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        log("web content process terminated, reloading")
+        if webView.url != nil { webView.reload() } else { goHome() }
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        log("navigation failed: \(error.localizedDescription)")
+    }
+
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        log("load failed: \(error.localizedDescription)")
     }
 }
 

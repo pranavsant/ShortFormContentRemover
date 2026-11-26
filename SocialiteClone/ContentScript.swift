@@ -31,7 +31,10 @@ enum ContentScript {
 
   // ---- Instagram (mobile web) ----
   var IG_REELS_NAV = 'a[href="/reels/"], a[href^="/reels/"]';
-  var IG_VIDEO_POSTS = 'main article:has(video)';
+  // Marked by markVideoPosts() rather than matched live with :has(video).
+  // Instagram removes the <video> from posts that aren't visible, so a live
+  // :has(video) rule would hide -> unhide -> hide in a loop (flicker).
+  var IG_VIDEO_POSTS = 'main article[data-sl-video]';
   var IG_EXPLORE_GRID = 'html.sl-explore main a[href^="/p/"], html.sl-explore main a[href^="/reel/"]';
   var IG_HOME_FEED = 'html.sl-home main article';
 
@@ -100,12 +103,28 @@ enum ContentScript {
     if (style.textContent !== css) { style.textContent = css; }
   }
 
-  function tick() { updateClasses(); ensureStyle(); }
+  // Tag every feed post that has (or ever had) a video. The tag is permanent
+  // for that element, so the post stays hidden when Instagram unloads the video.
+  function markVideoPosts() {
+    if (site !== 'ig') { return; }
+    var videos = document.querySelectorAll('main article:not([data-sl-video]) video');
+    for (var i = 0; i < videos.length; i++) {
+      var post = videos[i].closest('article');
+      if (post) { post.setAttribute('data-sl-video', ''); }
+    }
+  }
+
+  function tick() { updateClasses(); ensureStyle(); markVideoPosts(); }
 
   window.__SL_apply = function (newCfg) { cfg = newCfg || {}; tick(); };
 
   tick();
   document.addEventListener('DOMContentLoaded', tick);
+  // Catch new posts as soon as they're added, before they get painted.
+  if (site === 'ig' && window.MutationObserver) {
+    new window.MutationObserver(markVideoPosts)
+      .observe(document.documentElement, { childList: true, subtree: true });
+  }
   // SPA navigations and re-renders: cheap enough to just re-check.
   setInterval(tick, 400);
 })();
