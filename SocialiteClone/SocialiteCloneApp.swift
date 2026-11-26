@@ -11,9 +11,13 @@ struct SocialiteCloneApp: App {
     }
 }
 
+/// Full-screen: only the current platform's page is visible. The only UI of
+/// our own is a small floating button that opens the menu.
 struct RootView: View {
     @ObservedObject var settings: SettingsStore
     @StateObject private var registry: BrowserRegistry
+    @AppStorage("currentPlatform") private var current: Platform = .instagram
+    @State private var showingMenu = false
 
     init(settings: SettingsStore) {
         self.settings = settings
@@ -21,13 +25,33 @@ struct RootView: View {
     }
 
     var body: some View {
-        TabView {
+        ZStack {
+            // Every platform's page stays alive so switching is instant and
+            // keeps your place; only the current one is visible.
             ForEach(Platform.allCases) { platform in
                 BrowserScreen(model: registry.model(for: platform))
-                    .tabItem { Label(platform.title, systemImage: platform.systemImage) }
+                    .opacity(platform == current ? 1 : 0)
+                    .allowsHitTesting(platform == current)
             }
-            SettingsView(settings: settings, onSignOut: registry.signOutAll)
-                .tabItem { Label("Blocking", systemImage: "hand.raised") }
+        }
+        .overlay {
+            FloatingMenuButton { showingMenu = true }
+        }
+        .sheet(isPresented: $showingMenu) {
+            MenuSheet(
+                current: $current,
+                settings: settings,
+                model: registry.model(for: current),
+                onSignOut: registry.signOutAll
+            )
+            .presentationDetents([.medium, .large])
+        }
+        .onAppear { registry.model(for: current).loadIfNeeded() }
+        .onChange(of: current) { _, newValue in
+            for platform in Platform.allCases where platform != newValue {
+                registry.model(for: platform).pauseMedia()
+            }
+            registry.model(for: newValue).loadIfNeeded()
         }
     }
 }

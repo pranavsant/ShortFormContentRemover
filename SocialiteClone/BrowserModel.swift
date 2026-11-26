@@ -75,6 +75,11 @@ final class BrowserModel: NSObject, ObservableObject {
         if webView.isLoading { webView.stopLoading() } else { webView.reload() }
     }
 
+    /// Stop audio/video when this platform is switched away from.
+    func pauseMedia() {
+        webView.pauseAllMediaPlayback()
+    }
+
     func apply(_ newConfig: BlockConfig) {
         config = newConfig
         installScript()   // for future page loads

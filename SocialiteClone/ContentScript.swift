@@ -70,6 +70,7 @@ enum ContentScript {
   function buildCSS() {
     var r = [];
     if (site === 'ig') {
+      r.push('[data-sl-banner]' + HIDE);
       if (cfg.igBlockReelsFeed) { r.push(IG_REELS_NAV + HIDE); }
       if (cfg.igHideVideoPosts) { r.push(IG_VIDEO_POSTS + HIDE); }
       if (cfg.igHideExploreGrid) { r.push(IG_EXPLORE_GRID + HIDE); }
@@ -114,7 +115,27 @@ enum ContentScript {
     }
   }
 
-  function tick() { updateClasses(); ensureStyle(); markVideoPosts(); }
+  // Instagram's "Use the app" prompt pinned to the bottom of the page.
+  // Its markup has no stable class names, so find it by its text and hide the
+  // fixed-position bar that contains it.
+  var BANNER_TEXTS = ['Use the app', 'Open app', 'Open Instagram'];
+  function hideAppBanners() {
+    if (site !== 'ig' || !document.body) { return; }
+    var candidates = document.querySelectorAll('a, button, div[role="button"], span');
+    for (var i = 0; i < candidates.length; i++) {
+      var el = candidates[i];
+      if (BANNER_TEXTS.indexOf((el.textContent || '').trim()) === -1) { continue; }
+      for (var node = el, depth = 0; node && node !== document.body && depth < 10; node = node.parentElement, depth++) {
+        var pos = getComputedStyle(node).position;
+        if (pos === 'fixed' || pos === 'sticky') {
+          node.setAttribute('data-sl-banner', '');
+          break;
+        }
+      }
+    }
+  }
+
+  function tick() { updateClasses(); ensureStyle(); markVideoPosts(); hideAppBanners(); }
 
   window.__SL_apply = function (newCfg) { cfg = newCfg || {}; tick(); };
 
